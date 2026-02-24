@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adgrow EU — AI Ad Creatives for Clothing Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sand: #e8e0d0;
+  --cream: #f5f0e8;
+  --charcoal: #1c1c1a;
+  --ink: #2a2a26;
+  --taupe: #8a7f70;
+  --rust: #b5460f;
+  --ecru: #d4c9b0;
+  --white: #faf8f4;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── LOADING ANIMATION ── */
+.loader {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--charcoal);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.6s 0.3s, visibility 0.6s 0.3s;
+}
+.loader.done { opacity: 0; visibility: hidden; }
+.loader-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ecru);
+  overflow: hidden;
+}
+.loader-text span {
+  display: inline-block;
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ecru);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+.nav-logo em { font-style: italic; font-weight: 300; color: var(--rust); }
+.nav-links {
+  display: flex; align-items: center; gap: 2.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+.nav-links a { text-decoration: none; color: inherit; transition: color 0.2s; }
+.nav-links a:hover { color: var(--charcoal); }
+.nav-cta {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--charcoal);
+  color: var(--cream);
+  padding: 0.7rem 1.8rem;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+  border: 1px solid var(--charcoal);
+}
+.nav-cta:hover { background: var(--rust); border-color: var(--rust); }
+
+/* ── HERO ── */
+.hero {
+  padding-top: 68px;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+/* Fabric texture overlay */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    );
+  pointer-events: none;
+}
+
+/* Clothing-themed background collage feel */
+.hero-bg-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18vw, 22vw, 28rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(232,224,208,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.fashion-labels {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.f-label {
+  position: absolute;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(212,201,176,0.12);
+  white-space: nowrap;
+}
+.f-label:nth-child(1)  { top: 18%;  left: 6%;   transform: rotate(-90deg); }
+.f-label:nth-child(2)  { top: 30%;  right: 5%;  transform: rotate(90deg); }
+.f-label:nth-child(3)  { top: 62%;  left: 15%;  }
+.f-label:nth-child(4)  { top: 75%;  right: 12%; transform: rotate(-5deg); }
+.f-label:nth-child(5)  { top: 45%;  left: 42%;  transform: rotate(3deg); }
+.f-label:nth-child(6)  { top: 12%;  right: 22%; transform: rotate(-2deg); }
+
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 5rem 3rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 4rem;
+  align-items: end;
+}
+
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.8rem, 7vw, 7.5rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+.hero-headline strong {
+  font-weight: 700;
+  display: block;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--ecru);
+  opacity: 0.7;
+}
+.hero-headline .rust { color: #e85c20; font-style: italic; }
+
+.hero-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ecru);
+  opacity: 0.5;
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block; width: 40px; height: 1px;
+  background: var(--ecru); opacity: 0.4;
+}
+
+.hero-right-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2rem;
+  padding-bottom: 0.5rem;
+}
+.hero-description {
+  font-size: 0.93rem;
+  line-height: 1.8;
+  color: rgba(245,240,232,0.55);
+  border-left: 1px solid rgba(212,201,176,0.2);
+  padding-left: 1.5rem;
+}
+.hero-cta-wrap {
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.btn-hero {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--rust);
+  color: var(--cream);
+  text-decoration: none;
+  padding: 1.2rem 1.8rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--rust);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.08);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.4s;
+}
+.btn-hero:hover::before { transform: translateX(110%) skewX(-15deg); }
+.btn-hero:hover { background: #c95010; }
+.btn-hero-arrow { font-size: 1.2rem; }
+
+.hero-note {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(212,201,176,0.35);
+  text-align: center;
+}
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--sand);
+  border-top: 1px solid var(--ecru);
+  border-bottom: 1px solid var(--ecru);
+}
+.stat-item {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--ecru);
+  display: flex; flex-direction: column; gap: 0.3rem;
+  transition: background 0.3s;
+  position: relative;
+}
+.stat-item:hover { background: var(--ecru); }
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--charcoal);
+}
+.stat-num sup { font-size: 1.5rem; vertical-align: top; margin-top: 0.5rem; color: var(--rust); }
+.stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--taupe);
+  line-height: 1.4;
+}
+
+/* ── SECTION UTILITY ── */
+.section { padding: 7rem 3rem; }
+.section-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.section-tag::after {
+  content: '';
+  flex: 1; max-width: 60px; height: 1px;
+  background: var(--rust); opacity: 0.4;
+}
+h2.display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+}
+h2.display em { font-style: italic; font-weight: 300; }
+
+/* ── PROBLEM (clothing specific) ── */
+.problem-section {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+.problem-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+}
+.problem-left h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 2rem;
+}
+.problem-left h2 em { font-style: italic; color: var(--ecru); opacity: 0.6; }
+.problem-left p { color: rgba(245,240,232,0.5); line-height: 1.8; font-size: 0.95rem; }
+
+.pain-list { display: flex; flex-direction: column; gap: 0; }
+.pain-item {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 1.5rem; align-items: start;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid rgba(212,201,176,0.1);
+  opacity: 0; transform: translateX(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.pain-item.visible { opacity: 1; transform: translateX(0); }
+.pain-item:first-child { padding-top: 0; }
+.pain-item:last-child { border-bottom: none; }
+.pain-number {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--rust);
+  padding-top: 0.2rem;
+  min-width: 30px;
+}
+.pain-body h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--cream);
+  margin-bottom: 0.4rem;
+}
+.pain-body p { font-size: 0.88rem; color: rgba(245,240,232,0.45); line-height: 1.6; }
+
+/* ── FORMATS (fashion runway style) ── */
+.formats-section { background: var(--white); }
+.formats-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  margin-bottom: 5rem; align-items: end;
+}
+.formats-intro p { color: var(--taupe); line-height: 1.8; font-size: 0.95rem; }
+
+.format-runway {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  background: var(--ecru);
+}
+.format-item {
+  background: var(--cream);
+  padding: 3rem 2.5rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+  cursor: default;
+  min-height: 440px;
+  display: flex; flex-direction: column;
+}
+.format-item:hover { background: var(--charcoal); }
+.format-item:hover * { color: var(--cream) !important; }
+.format-item:hover .format-tag { color: var(--ecru) !important; opacity: 0.5; }
+.format-item:hover .format-cta { border-color: rgba(245,240,232,0.3) !important; color: rgba(245,240,232,0.6) !important; }
+
+.format-big-num {
+  position: absolute; bottom: -2rem; right: -1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(28,28,26,0.04);
+  pointer-events: none;
+  transition: color 0.4s;
+}
+.format-item:hover .format-big-num { color: rgba(245,240,232,0.05); }
+
+.format-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 3rem;
+}
+.format-emoji { font-size: 2.2rem; margin-bottom: 1.5rem; }
+.format-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 600;
+  line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--charcoal); margin-bottom: 1rem;
+  transition: color 0.4s;
+}
+.format-item p {
+  font-size: 0.87rem; color: var(--taupe);
+  line-height: 1.7; flex: 1;
+  transition: color 0.4s;
+}
+.format-cta {
+  margin-top: 2rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--taupe);
+  border-top: 1px solid var(--ecru);
+  padding-top: 1rem; display: flex;
+  justify-content: space-between; align-items: center;
+  transition: all 0.4s;
+}
+
+/* HOT BADGE */
+.hot-badge {
+  background: var(--rust); color: var(--cream);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.55rem; letter-spacing: 0.2em;
+  text-transform: uppercase; padding: 0.2rem 0.6rem;
+  margin-left: 0.8rem;
+}
+
+/* ── CLOTHING BRAND SPECIFIC SECTION ── */
+.for-clothing {
+  background: var(--sand);
+  border-top: 1px solid var(--ecru);
+  border-bottom: 1px solid var(--ecru);
+}
+.for-clothing-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+.for-clothing-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-top: 4rem;
+  border: 1px solid var(--ecru);
+}
+.clothing-card {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--ecru);
+  position: relative;
+  transition: background 0.3s;
+  overflow: hidden;
+}
+.clothing-card:hover { background: var(--ecru); }
+.clothing-card:last-child { border-right: none; }
+.clothing-card::before {
+  content: attr(data-category);
+  position: absolute; bottom: -0.5rem; right: -0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6rem; font-weight: 700; font-style: italic;
+  color: rgba(28,28,26,0.04); line-height: 1;
+  pointer-events: none;
+}
+.cc-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
+.cc-category {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.58rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--taupe);
+  margin-bottom: 0.5rem;
+}
+.clothing-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: var(--charcoal); margin-bottom: 0.7rem;
+  line-height: 1.2;
+}
+.clothing-card p { font-size: 0.83rem; color: var(--taupe); line-height: 1.6; }
+
+/* ── PROCESS ── */
+.process-wrap {
+  max-width: 1200px; margin: 0 auto;
+}
+.process-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; background: var(--ecru); margin-top: 4rem;
+  border: 1px solid var(--ecru);
+}
+.process-card {
+  background: var(--cream); padding: 3.5rem;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.process-card:hover { background: var(--white); }
+.process-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--rust);
+  transition: height 0.4s;
+}
+.process-card:hover::after { height: 100%; }
+.pc-step {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.62rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--rust);
+  margin-bottom: 2rem; display: flex; align-items: center; gap: 0.8rem;
+}
+.pc-step-line { flex: 1; max-width: 40px; height: 1px; background: var(--rust); opacity: 0.3; }
+.pc-bg-num {
+  position: absolute; bottom: -1.5rem; right: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem; font-weight: 700;
+  color: rgba(28,28,26,0.04); line-height: 1;
+  pointer-events: none;
+}
+.process-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600;
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--charcoal); margin-bottom: 1rem;
+}
+.process-card p { font-size: 0.9rem; color: var(--taupe); line-height: 1.75; }
+.process-time {
+  margin-top: 2rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--taupe);
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.process-time::before { content: '◆'; font-size: 0.4rem; color: var(--rust); }
+
+/* ── TESTIMONIALS ── */
+.testimonials-section { background: var(--charcoal); color: var(--cream); }
+.test-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; background: rgba(212,201,176,0.1);
+  margin-top: 4rem; border: 1px solid rgba(212,201,176,0.1);
+}
+.test-card {
+  background: var(--charcoal); padding: 3rem;
+  transition: background 0.3s;
+  position: relative;
+}
+.test-card:hover { background: #222220; }
+.test-card::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem; font-weight: 300; font-style: italic;
+  color: rgba(212,201,176,0.08);
+  position: absolute; top: -1rem; left: 2rem;
+  line-height: 1; pointer-events: none;
+}
+.test-metric {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(181,70,15,0.15); border: 1px solid rgba(181,70,15,0.3);
+  color: #e8793a; padding: 0.3rem 0.9rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.test-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic;
+  line-height: 1.65; color: rgba(245,240,232,0.8);
+  margin-bottom: 2rem;
+}
+.test-person {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(212,201,176,0.4);
+  border-top: 1px solid rgba(212,201,176,0.1);
+  padding-top: 1.2rem;
+}
+.test-person strong { display: block; color: var(--ecru); font-size: 0.8rem; margin-bottom: 0.2rem; }
+
+/* ── FINAL CTA ── */
+.final-cta {
+  background: var(--cream);
+  padding: 8rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: 'SCALE';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(14rem, 22vw, 28rem);
+  font-weight: 700; font-style: italic;
+  color: rgba(28,28,26,0.025);
+  white-space: nowrap; pointer-events: none;
+  line-height: 1;
+}
+.final-cta-inner { position: relative; z-index: 1; }
+.final-cta .section-tag { justify-content: center; }
+.final-cta .section-tag::after { display: none; }
+.final-cta .section-tag::before {
+  content: '';
+  flex: 1; max-width: 60px; height: 1px;
+  background: var(--rust); opacity: 0.4;
+}
+.final-cta h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  font-weight: 300; letter-spacing: -0.02em;
+  line-height: 1.0; color: var(--charcoal);
+  margin-bottom: 2rem;
+}
+.final-cta h2 strong { font-weight: 700; }
+.final-cta h2 em { font-style: italic; color: var(--rust); }
+.final-cta p {
+  font-size: 1rem; color: var(--taupe);
+  max-width: 460px; margin: 0 auto 3rem;
+  line-height: 1.8;
+}
+.btn-final {
+  display: inline-flex; align-items: center; gap: 1.2rem;
+  background: var(--charcoal); color: var(--cream);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 0.9rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 1.3rem 3rem; text-decoration: none;
+  border: 1px solid var(--charcoal);
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.btn-final::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--rust); transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+.btn-final:hover { border-color: var(--rust); }
+.btn-final:hover::before { transform: translateX(0); }
+.btn-final span { position: relative; z-index: 1; }
+.final-urgency {
+  margin-top: 1.5rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--taupe);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--charcoal); color: rgba(212,201,176,0.4);
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.foot-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; font-size: 1.1rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ecru);
+}
+.foot-logo em { font-style: italic; font-weight: 300; color: var(--rust); }
+footer a {
+  color: #e8793a; font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* ── MARQUEE ── */
+.marquee-strip {
+  background: var(--charcoal);
+  overflow: hidden; padding: 1rem 0;
+}
+.marquee-inner {
+  display: flex; white-space: nowrap;
+  animation: scroll 22s linear infinite;
+}
+.marquee-item {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 300; font-size: 0.75rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(212,201,176,0.25); padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.marquee-item::after {
+  content: '✦';
+  color: var(--rust); opacity: 0.6; font-size: 0.5rem;
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero-content { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem 4rem; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .stat-item:nth-child(2n) { border-right: none; }
+  .stat-item:nth-child(n+3) { border-top: 1px solid var(--ecru); }
+  .section { padding: 5rem 1.5rem; }
+  .problem-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .formats-intro { grid-template-columns: 1fr; gap: 2rem; }
+  .format-runway { grid-template-columns: 1fr; }
+  .for-clothing-grid { grid-template-columns: 1fr 1fr; }
+  .clothing-card:nth-child(2n) { border-right: none; }
+  .clothing-card:nth-child(n+3) { border-top: 1px solid var(--ecru); }
+  .process-grid { grid-template-columns: 1fr; }
+  .test-grid { grid-template-columns: 1fr; }
+  .final-cta { padding: 6rem 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-text">
+    <span style="animation-delay:0.1s">A</span><span style="animation-delay:0.15s">D</span><span style="animation-delay:0.2s">G</span><span style="animation-delay:0.25s">R</span><span style="animation-delay:0.3s">O</span><span style="animation-delay:0.35s">W</span><span style="animation-delay:0.45s; color:rgba(181,70,15,0.7);">&nbsp;EU</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Adgrow <em>EU</em></div>
+  <div class="nav-links">
+    <a href="#formats">Our Formats</a>
+    <a href="#process">Process</a>
+    <a href="#results">Results</a>
+  </div>
+  <a href="https://calendly.com/joshuaberonia20002/30min" target="_blank" class="nav-cta">Book Free Call →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">Fashion</div>
+  <div class="fashion-labels">
+    <div class="f-label">Streetwear · Luxury · Athleisure</div>
+    <div class="f-label">SS25 · FW25 · Resort · Capsule</div>
+    <div class="f-label">Drop Culture · DTC · Meta Ads</div>
+    <div class="f-label">Denim · Outerwear · Accessories</div>
+    <div class="f-label">AI Creative Production</div>
+    <div class="f-label">Performance Creative Agency</div>
+  </div>
+
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow">AI Creatives Exclusively for Clothing Brands</div>
+      <h1 class="hero-headline">
+        The Only<br>
+        <strong>Creative Agency</strong><br>
+        Built for<br>
+        <span class="rust">Clothing Brands</span>
+      </h1>
+    </div>
+    <div class="hero-right-panel">
+      <p class="hero-description">
+        We don't work with SaaS companies, coaches, or dropshippers. We build AI-powered video creatives specifically for fashion and clothing brands — the formats Meta's algorithm needs to scale your revenue, not just your spend.
+      </p>
+      <div class="hero-cta-wrap">
+        <a href="https://calendly.com/joshuaberonia20002/30min" target="_blank" class="btn-hero">
+          <span>Book My Free Strategy Call</span>
+          <span class="btn-hero-arrow">→</span>
+        </a>
+        <p class="hero-note">// 30 mins · Free creative audit included · No commitment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">3<sup>×</sup></div>
+    <div class="stat-label">Average ROAS lift<br>within 30 days</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">48<sup>h</sup></div>
+    <div class="stat-label">Brief to live-ready<br>AI video creatives</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">44<sup>%</sup></div>
+    <div class="stat-label">Average CPA reduction<br>for clothing brands</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">€0</div>
+    <div class="stat-label">Spent on actors,<br>shoots or shipping</div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <div class="marquee-item">Streetwear</div>
+    <div class="marquee-item">Luxury Fashion</div>
+    <div class="marquee-item">Athleisure</div>
+    <div class="marquee-item">DTC Clothing</div>
+    <div class="marquee-item">Denim Brands</div>
+    <div class="marquee-item">Outerwear</div>
+    <div class="marquee-item">Drop Culture</div>
+    <div class="marquee-item">Women's Fashion</div>
+    <div class="marquee-item">Menswear</div>
+    <div class="marquee-item">Accessories</div>
+    <div class="marquee-item">Streetwear</div>
+    <div class="marquee-item">Luxury Fashion</div>
+    <div class="marquee-item">Athleisure</div>
+    <div class="marquee-item">DTC Clothing</div>
+    <div class="marquee-item">Denim Brands</div>
+    <div class="marquee-item">Outerwear</div>
+    <div class="marquee-item">Drop Culture</div>
+    <div class="marquee-item">Women's Fashion</div>
+    <div class="marquee-item">Menswear</div>
+    <div class="marquee-item">Accessories</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section problem-section">
+  <div class="problem-inner">
+    <div class="problem-left">
+      <div class="section-tag" style="color:var(--ecru);opacity:0.4;">The Problem</div>
+      <h2>Clothing brands burn<br>money on creatives that<br><em>look great, convert nothing</em></h2>
+      <p>Fashion has unique creative challenges that generic agencies don't understand. Your product needs to move, breathe, and be seen in context. The Meta algorithm needs diversity. And your media buyer needs volume. Most agencies give you none of that.</p>
+    </div>
+    <div class="pain-list">
+      <div class="pain-item">
+        <div class="pain-number">01</div>
+        <div class="pain-body">
+          <h3>Fashion Shoot Bottlenecks</h3>
+          <p>Coordinating models, stylists, locations, and samples takes weeks. By the time your creative is live, the trend is dead and the winning angle has moved on.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">02</div>
+        <div class="pain-body">
+          <h3>Creative Fatigue Kills Your CPA</h3>
+          <p>Running the same 3 looks until frequency destroys your CPM and CPA explodes. Your clothing deserves fresh angles every week, not reruns.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">03</div>
+        <div class="pain-body">
+          <h3>One Model, One Look, One Story</h3>
+          <p>Limited casting means limited audiences. Your brand speaks to multiple customer personas — your creatives should too. Meta rewards diversity.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">04</div>
+        <div class="pain-body">
+          <h3>Media Buyers Starved of Ammunition</h3>
+          <p>Your buyer knows how to scale — but not with 3 creatives. Give them 30 and watch what happens to your ROAS.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR CLOTHING BRANDS -->
+<section class="section for-clothing" id="formats">
+  <div class="for-clothing-inner">
+    <div class="section-tag">Built for Clothing, Only</div>
+    <h2 class="display">We speak <em>fashion.</em><br>Your ads will too.</h2>
+    <div class="for-clothing-grid">
+      <div class="clothing-card" data-category="SS">
+        <span class="cc-icon">👗</span>
+        <div class="cc-category">Women's Fashion</div>
+        <h3>Editorial-Style UGC</h3>
+        <p>AI personas that embody your aesthetic. From minimalist capsule to maximalist streetwear — every persona is styled to match your brand DNA.</p>
+      </div>
+      <div class="clothing-card" data-category="FW">
+        <span class="cc-icon">🧥</span>
+        <div class="cc-category">Outerwear & Menswear</div>
+        <h3>Contextual Lifestyle Ads</h3>
+        <p>Your pieces in aspirational environments — urban, editorial, outdoor, seasonal — without shipping a single item. Iterate settings in hours.</p>
+      </div>
+      <div class="clothing-card" data-category="DR">
+        <span class="cc-icon">⚡</span>
+        <div class="cc-category">Streetwear & Drops</div>
+        <h3>Drop-Ready Hype Creatives</h3>
+        <p>Fast-turnaround AI video formats built around urgency and cultural relevance. Launch-day creatives in 24 hours, not 2 weeks.</p>
+      </div>
+      <div class="clothing-card" data-category="DT">
+        <span class="cc-icon">📦</span>
+        <div class="cc-category">DTC & eComm Brands</div>
+        <h3>Hook Variation Stacks</h3>
+        <p>6 hooks per winning creative. Find what resonates with each customer segment — and double down fast before your competitor does.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS SECTION -->
+<section class="section formats-section" style="background:var(--white);" id="formats-detail">
+  <div class="formats-intro">
+    <div>
+      <div class="section-tag">The 3-AI Format System</div>
+      <h2 class="display">Three formats.<br><em>Engineered</em> for<br>clothing brands.</h2>
+    </div>
+    <p>After working exclusively with clothing brands, we identified exactly what makes creatives convert in fashion — and built a proprietary 3-format system around it. No generic templates. No one-size-fits-all. Just high-converting AI video built specifically for how people buy clothes.</p>
+  </div>
+
+  <div class="format-runway">
+    <div class="format-item">
+      <div class="format-tag">Format 01 <span class="hot-badge">🔥 Top Performer</span></div>
+      <div class="format-emoji">🎭</div>
+      <h3>AI Persona UGC</h3>
+      <p>Diverse AI-generated people wearing and presenting your clothing with authentic, native-feeling energy. Multiple body types, styles, ages — the creative diversity Meta craves to unlock new audiences for your brand.</p>
+      <div class="format-cta"><span>Diversity at scale</span><span>→</span></div>
+      <div class="format-big-num">01</div>
+    </div>
+    <div class="format-item">
+      <div class="format-tag">Format 02</div>
+      <div class="format-emoji">🌆</div>
+      <h3>Lifestyle Context Placement</h3>
+      <p>Your clothing in aspirational settings — rooftop terraces, city streets, sunlit studios, seasonal environments. Zero logistics. Your product in the exact context that makes your customer see themselves wearing it.</p>
+      <div class="format-cta"><span>Context that converts</span><span>→</span></div>
+      <div class="format-big-num">02</div>
+    </div>
+    <div class="format-item">
+      <div class="format-tag">Format 03</div>
+      <div class="format-emoji">⚡</div>
+      <h3>Hook Variation Engine</h3>
+      <p>We take your best-performing creative and produce 6 different opening hooks simultaneously. Different emotional angles, different audience segments, different pain points. Find your winner in days, not months.</p>
+      <div class="format-cta"><span>Speed & signal</span><span>→</span></div>
+      <div class="format-big-num">03</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <div class="process-wrap">
+    <div class="section-tag">The Process</div>
+    <h2 class="display">From brief to live<br><em>in under 72 hours.</em></h2>
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="pc-step">Step 01 <div class="pc-step-line"></div></div>
+        <h3>Brand & Audience Discovery</h3>
+        <p>We study your clothing line, bestsellers, brand aesthetic, and target audience inside out. We map the exact creative angles — emotional hooks, visual environments, persona types — that resonate with your specific customer. No guesswork, only data and fashion-industry expertise.</p>
+        <div class="process-time">Day 1 – 2</div>
+        <div class="pc-bg-num">1</div>
+      </div>
+      <div class="process-card">
+        <div class="pc-step">Step 02 <div class="pc-step-line"></div></div>
+        <h3>3-Format AI Creative Production</h3>
+        <p>Our proprietary system produces all three formats in parallel — AI Persona UGC, Lifestyle Context, and Hook Variations — without a single model call, product shipment, or studio booking. Your creatives are styled to your brand aesthetic from day one.</p>
+        <div class="process-time">Day 2 – 3</div>
+        <div class="pc-bg-num">2</div>
+      </div>
+      <div class="process-card">
+        <div class="pc-step">Step 03 <div class="pc-step-line"></div></div>
+        <h3>Launch & Live Optimization</h3>
+        <p>Creatives go live while we monitor performance in real time. Winners get iterated immediately. Losers get cut within 48 hours. Your media buyer finally gets the creative volume needed to find scale — and keep it.</p>
+        <div class="process-time">Day 4 onward</div>
+        <div class="pc-bg-num">3</div>
+      </div>
+      <div class="process-card" style="background:var(--charcoal); color:var(--cream);">
+        <div class="pc-step" style="color:var(--ecru); opacity:0.4;">The Result</div>
+        <h3 style="color:var(--cream);">Lower CPA.<br>Higher ROAS.<br><em style="color:var(--ecru); opacity:0.6;">Profitable scale.</em></h3>
+        <p style="color:rgba(212,201,176,0.45);">Your media buyer has the ammunition they need. The Meta algorithm has the diversity it craves. And your clothing brand has a creative machine — not a one-off photoshoot.</p>
+        <div class="process-time" style="color:rgba(212,201,176,0.3);">Ongoing partnership</div>
+        <div class="pc-bg-num" style="color:rgba(255,255,255,0.03);">✓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section" id="results">
+  <div class="section-tag" style="color:rgba(212,201,176,0.4);">Results</div>
+  <h2 class="display" style="color:var(--cream);">Clothing brands <em>already scaling</em><br>with Adgrow EU.</h2>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-metric">+133% ROAS · Streetwear</div>
+      <p class="test-quote">"We went from 1.8× to 4.2× ROAS in 6 weeks. The AI creatives were indistinguishable from real UGC — and they outperformed everything we'd ever shot with real models and influencers."</p>
+      <div class="test-person"><strong>Matteo R.</strong>Head of Performance · Streetwear Brand, Italy</div>
+    </div>
+    <div class="test-card">
+      <div class="test-metric">−44% CPA · Women's Fashion</div>
+      <p class="test-quote">"Our CPA dropped 44% in the first month. Joshua understands fashion creative like no one else — his 3-format system is the only strategy that gave our buyer what they needed to scale."</p>
+      <div class="test-person"><strong>Sophie K.</strong>Founder · Women's Fashion Brand, Germany</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div class="section-tag">Only for Clothing Brands</div>
+    <h2>
+      Ready to turn your<br>
+      clothing brand into<br>
+      a <em>scaling machine?</em>
+    </h2>
+    <p>Book a free 30-minute call with Joshua. We'll audit your current creatives and show you exactly what the 3-AI Format system can unlock for your clothing brand — no fluff, no obligation, no generic agency pitch.</p>
+    <a href="https://calendly.com/joshuaberonia20002/30min" target="_blank" class="btn-final">
+      <span>Book My Free 30-Min Strategy Call →</span>
+    </a>
+    <p class="final-urgency">// Clothing brands only · 5 spots available this month</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Adgrow <em>EU</em></div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;">© 2025 Adgrow EU · AI Creatives for Clothing Brands</div>
+  <a href="https://calendly.com/joshuaberonia20002/30min" target="_blank">Book a Call →</a>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('done'), 900);
+  });
+
+  // Scroll reveal for pain items
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.pain-item').forEach(el => observer.observe(el));
+
+  // Parallax on hero bg text
+  window.addEventListener('scroll', () => {
+    const bg = document.querySelector('.hero-bg-text');
+    if (bg) bg.style.transform = `translate(-50%, calc(-50% + ${window.scrollY * 0.15}px))`;
+  });
+</script>
+
+</body>
+</html>
